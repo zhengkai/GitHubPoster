@@ -2,10 +2,8 @@ name: Twitter Back Up
 
 on:
   workflow_dispatch:
-    inputs:
-      twitter_user_name:
-        description: 'twitter user name'
-        required: true
+  schedule:
+    - cron: "3 17 * * 1"
 
 jobs:
   twitter_backup:
@@ -54,7 +52,7 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Run twitter back up 
         run: |
-           python -m github_poster twitter --twitter_user_name "${{ github.event.inputs.twitter_user_name }}" --year 2007-$(date +"%Y") --me "${{ github.event.inputs.twitter_user_name }}" | tee OUT_FOLDER/"${{ github.event.inputs.twitter_user_name }}".txt
+           python -m github_poster twitter --twitter_user_name "${{ secrets.TWITTER_USER_NAME }}" --year 2021-$(date +"%Y") --me "${{ secrets.TWITTER_USER_NAME }}" | tee OUT_FOLDER/"${{ secrets.TWITTER_USER_NAME }}".txt
 
       - name: Push new twitter back up
         run: |
